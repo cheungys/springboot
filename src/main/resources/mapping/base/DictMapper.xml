@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zys.boot.base.dao.DictMapper" >
+  <resultMap id="BaseResultMap" type="com.zys.boot.base.entity.Dict" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="dict_key" property="dictKey" jdbcType="VARCHAR" />
+    <result column="dict_value" property="dictValue" jdbcType="VARCHAR" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="modify_user" property="modifyUser" jdbcType="VARCHAR" />
+    <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
+    <result column="bel_dict_id" property="belDictId" jdbcType="INTEGER" />
+    <result column="deltag" property="deltag" jdbcType="BIT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, dict_key, dict_value, create_user, create_time, modify_user, modify_time, bel_dict_id, 
+    deltag
+  </sql>
+  <!--根据字典键 和所属定义名称ID 获取 该字典的值-->
+  <select id="selectByKeyAndBelid" resultMap="BaseResultMap" parameterType="com.zys.boot.base.entity.Dict">
+    select
+    <include refid="Base_Column_List"/>
+    from t_dict where dict_key =#{dictKey,jdbcType=VARCHAR} and bel_dict_id =#{belDictId,jdbcType=INTEGER}
+  </select>
+
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_dict
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_dict
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zys.boot.base.entity.Dict" >
+    insert into t_dict (id, dict_key, dict_value, 
+      create_user, create_time, modify_user, 
+      modify_time, bel_dict_id, deltag
+      )
+    values (#{id,jdbcType=INTEGER}, #{dictKey,jdbcType=VARCHAR}, #{dictValue,jdbcType=VARCHAR}, 
+      #{createUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{modifyUser,jdbcType=VARCHAR}, 
+      #{modifyTime,jdbcType=TIMESTAMP}, #{belDictId,jdbcType=INTEGER}, #{deltag,jdbcType=BIT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zys.boot.base.entity.Dict" >
+    insert into t_dict
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="dictKey != null" >
+        dict_key,
+      </if>
+      <if test="dictValue != null" >
+        dict_value,
+      </if>
+      <if test="createUser != null" >
+        create_user,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="modifyUser != null" >
+        modify_user,
+      </if>
+      <if test="modifyTime != null" >
+        modify_time,
+      </if>
+      <if test="belDictId != null" >
+        bel_dict_id,
+      </if>
+      <if test="deltag != null" >
+        deltag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="dictKey != null" >
+        #{dictKey,jdbcType=VARCHAR},
+      </if>
+      <if test="dictValue != null" >
+        #{dictValue,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyUser != null" >
+        #{modifyUser,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyTime != null" >
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="belDictId != null" >
+        #{belDictId,jdbcType=INTEGER},
+      </if>
+      <if test="deltag != null" >
+        #{deltag,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zys.boot.base.entity.Dict" >
+    update t_dict
+    <set >
+      <if test="dictKey != null" >
+        dict_key = #{dictKey,jdbcType=VARCHAR},
+      </if>
+      <if test="dictValue != null" >
+        dict_value = #{dictValue,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyUser != null" >
+        modify_user = #{modifyUser,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyTime != null" >
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="belDictId != null" >
+        bel_dict_id = #{belDictId,jdbcType=INTEGER},
+      </if>
+      <if test="deltag != null" >
+        deltag = #{deltag,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zys.boot.base.entity.Dict" >
+    update t_dict
+    set dict_key = #{dictKey,jdbcType=VARCHAR},
+      dict_value = #{dictValue,jdbcType=VARCHAR},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modify_user = #{modifyUser,jdbcType=VARCHAR},
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      bel_dict_id = #{belDictId,jdbcType=INTEGER},
+      deltag = #{deltag,jdbcType=BIT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

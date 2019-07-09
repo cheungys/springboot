@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zys.boot.user.dao.CardInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.zys.boot.user.entity.CardInfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="vehicle_phone" property="vehiclePhone" jdbcType="VARCHAR" />
+    <result column="iccid" property="iccid" jdbcType="VARCHAR" />
+    <result column="carr_operator" property="carrOperator" jdbcType="INTEGER" />
+    <result column="ser_status" property="serStatus" jdbcType="INTEGER" />
+    <result column="apn1_status" property="apn1Status" jdbcType="INTEGER" />
+    <result column="apn2_status" property="apn2Status" jdbcType="INTEGER" />
+    <result column="month_total_traff" property="monthTotalTraff" jdbcType="VARCHAR" />
+    <result column="used_traff" property="usedTraff" jdbcType="VARCHAR" />
+    <result column="meg_total" property="megTotal" jdbcType="VARCHAR" />
+    <result column="cellphone" property="cellphone" jdbcType="VARCHAR" />
+    <result column="city" property="city" jdbcType="VARCHAR" />
+    <result column="vin" property="vin" jdbcType="VARCHAR" />
+    <result column="car_model_sn" property="carModelSn" jdbcType="VARCHAR" />
+    <result column="car_model_name" property="carModelName" jdbcType="VARCHAR" />
+    <result column="plate_number" property="plateNumber" jdbcType="VARCHAR" />
+    <result column="cust_name" property="custName" jdbcType="VARCHAR" />
+    <result column="cust_phone" property="custPhone" jdbcType="VARCHAR" />
+    <result column="residual_traff" property="residualTraff" jdbcType="VARCHAR" />
+    <result column="voice_status" property="voiceStatus" jdbcType="VARCHAR" />
+    <result column="bcall_set_size" property="bcallSetSize" jdbcType="VARCHAR" />
+    <result column="voi_used_amount" property="voiUsedAmount" jdbcType="VARCHAR" />
+    <result column="deltag" property="deltag" jdbcType="BIT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, vehicle_phone, iccid, carr_operator, ser_status, apn1_status, apn2_status, month_total_traff, 
+    used_traff, meg_total, cellphone, city, vin, car_model_sn, car_model_name, plate_number, 
+    cust_name, cust_phone, residual_traff, voice_status, bcall_set_size, voi_used_amount, 
+    deltag
+  </sql>
+  <select id="selectByVehiclePhone" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_card_set_info
+    where vehicle_phone = #{vehiclePhone,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_card_set_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zys.boot.user.entity.CardInfo" >
+    insert into t_card_set_info (id, vehicle_phone, iccid, 
+      carr_operator, ser_status, apn1_status, 
+      apn2_status, month_total_traff, used_traff, 
+      meg_total, cellphone, city, 
+      vin, car_model_sn, car_model_name, 
+      plate_number, cust_name, cust_phone, 
+      residual_traff, voice_status, bcall_set_size, 
+      voi_used_amount, deltag)
+    values (#{id,jdbcType=INTEGER}, #{vehiclePhone,jdbcType=VARCHAR}, #{iccid,jdbcType=VARCHAR}, 
+      #{carrOperator,jdbcType=INTEGER}, #{serStatus,jdbcType=INTEGER}, #{apn1Status,jdbcType=INTEGER}, 
+      #{apn2Status,jdbcType=INTEGER}, #{monthTotalTraff,jdbcType=VARCHAR}, #{usedTraff,jdbcType=VARCHAR}, 
+      #{megTotal,jdbcType=VARCHAR}, #{cellphone,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, 
+      #{vin,jdbcType=VARCHAR}, #{carModelSn,jdbcType=VARCHAR}, #{carModelName,jdbcType=VARCHAR}, 
+      #{plateNumber,jdbcType=VARCHAR}, #{custName,jdbcType=VARCHAR}, #{custPhone,jdbcType=VARCHAR}, 
+      #{residualTraff,jdbcType=VARCHAR}, #{voiceStatus,jdbcType=VARCHAR}, #{bcallSetSize,jdbcType=VARCHAR}, 
+      #{voiUsedAmount,jdbcType=VARCHAR}, #{deltag,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zys.boot.user.entity.CardInfo" >
+    insert into t_card_set_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="vehiclePhone != null" >
+        vehicle_phone,
+      </if>
+      <if test="iccid != null" >
+        iccid,
+      </if>
+      <if test="carrOperator != null" >
+        carr_operator,
+      </if>
+      <if test="serStatus != null" >
+        ser_status,
+      </if>
+      <if test="apn1Status != null" >
+        apn1_status,
+      </if>
+      <if test="apn2Status != null" >
+        apn2_status,
+      </if>
+      <if test="monthTotalTraff != null" >
+        month_total_traff,
+      </if>
+      <if test="usedTraff != null" >
+        used_traff,
+      </if>
+      <if test="megTotal != null" >
+        meg_total,
+      </if>
+      <if test="cellphone != null" >
+        cellphone,
+      </if>
+      <if test="city != null" >
+        city,
+      </if>
+      <if test="vin != null" >
+        vin,
+      </if>
+      <if test="carModelSn != null" >
+        car_model_sn,
+      </if>
+      <if test="carModelName != null" >
+        car_model_name,
+      </if>
+      <if test="plateNumber != null" >
+        plate_number,
+      </if>
+      <if test="custName != null" >
+        cust_name,
+      </if>
+      <if test="custPhone != null" >
+        cust_phone,
+      </if>
+      <if test="residualTraff != null" >
+        residual_traff,
+      </if>
+      <if test="voiceStatus != null" >
+        voice_status,
+      </if>
+      <if test="bcallSetSize != null" >
+        bcall_set_size,
+      </if>
+      <if test="voiUsedAmount != null" >
+        voi_used_amount,
+      </if>
+      <if test="deltag != null" >
+        deltag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="vehiclePhone != null" >
+        #{vehiclePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="iccid != null" >
+        #{iccid,jdbcType=VARCHAR},
+      </if>
+      <if test="carrOperator != null" >
+        #{carrOperator,jdbcType=INTEGER},
+      </if>
+      <if test="serStatus != null" >
+        #{serStatus,jdbcType=INTEGER},
+      </if>
+      <if test="apn1Status != null" >
+        #{apn1Status,jdbcType=INTEGER},
+      </if>
+      <if test="apn2Status != null" >
+        #{apn2Status,jdbcType=INTEGER},
+      </if>
+      <if test="monthTotalTraff != null" >
+        #{monthTotalTraff,jdbcType=VARCHAR},
+      </if>
+      <if test="usedTraff != null" >
+        #{usedTraff,jdbcType=VARCHAR},
+      </if>
+      <if test="megTotal != null" >
+        #{megTotal,jdbcType=VARCHAR},
+      </if>
+      <if test="cellphone != null" >
+        #{cellphone,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="vin != null" >
+        #{vin,jdbcType=VARCHAR},
+      </if>
+      <if test="carModelSn != null" >
+        #{carModelSn,jdbcType=VARCHAR},
+      </if>
+      <if test="carModelName != null" >
+        #{carModelName,jdbcType=VARCHAR},
+      </if>
+      <if test="plateNumber != null" >
+        #{plateNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="custName != null" >
+        #{custName,jdbcType=VARCHAR},
+      </if>
+      <if test="custPhone != null" >
+        #{custPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="residualTraff != null" >
+        #{residualTraff,jdbcType=VARCHAR},
+      </if>
+      <if test="voiceStatus != null" >
+        #{voiceStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="bcallSetSize != null" >
+        #{bcallSetSize,jdbcType=VARCHAR},
+      </if>
+      <if test="voiUsedAmount != null" >
+        #{voiUsedAmount,jdbcType=VARCHAR},
+      </if>
+      <if test="deltag != null" >
+        #{deltag,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zys.boot.user.entity.CardInfo" >
+    update t_card_set_info
+    <set >
+      <if test="vehiclePhone != null" >
+        vehicle_phone = #{vehiclePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="iccid != null" >
+        iccid = #{iccid,jdbcType=VARCHAR},
+      </if>
+      <if test="carrOperator != null" >
+        carr_operator = #{carrOperator,jdbcType=INTEGER},
+      </if>
+      <if test="serStatus != null" >
+        ser_status = #{serStatus,jdbcType=INTEGER},
+      </if>
+      <if test="apn1Status != null" >
+        apn1_status = #{apn1Status,jdbcType=INTEGER},
+      </if>
+      <if test="apn2Status != null" >
+        apn2_status = #{apn2Status,jdbcType=INTEGER},
+      </if>
+      <if test="monthTotalTraff != null" >
+        month_total_traff = #{monthTotalTraff,jdbcType=VARCHAR},
+      </if>
+      <if test="usedTraff != null" >
+        used_traff = #{usedTraff,jdbcType=VARCHAR},
+      </if>
+      <if test="megTotal != null" >
+        meg_total = #{megTotal,jdbcType=VARCHAR},
+      </if>
+      <if test="cellphone != null" >
+        cellphone = #{cellphone,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="vin != null" >
+        vin = #{vin,jdbcType=VARCHAR},
+      </if>
+      <if test="carModelSn != null" >
+        car_model_sn = #{carModelSn,jdbcType=VARCHAR},
+      </if>
+      <if test="carModelName != null" >
+        car_model_name = #{carModelName,jdbcType=VARCHAR},
+      </if>
+      <if test="plateNumber != null" >
+        plate_number = #{plateNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="custName != null" >
+        cust_name = #{custName,jdbcType=VARCHAR},
+      </if>
+      <if test="custPhone != null" >
+        cust_phone = #{custPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="residualTraff != null" >
+        residual_traff = #{residualTraff,jdbcType=VARCHAR},
+      </if>
+      <if test="voiceStatus != null" >
+        voice_status = #{voiceStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="bcallSetSize != null" >
+        bcall_set_size = #{bcallSetSize,jdbcType=VARCHAR},
+      </if>
+      <if test="voiUsedAmount != null" >
+        voi_used_amount = #{voiUsedAmount,jdbcType=VARCHAR},
+      </if>
+      <if test="deltag != null" >
+        deltag = #{deltag,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zys.boot.user.entity.CardInfo" >
+    update t_card_set_info
+    set vehicle_phone = #{vehiclePhone,jdbcType=VARCHAR},
+      iccid = #{iccid,jdbcType=VARCHAR},
+      carr_operator = #{carrOperator,jdbcType=INTEGER},
+      ser_status = #{serStatus,jdbcType=INTEGER},
+      apn1_status = #{apn1Status,jdbcType=INTEGER},
+      apn2_status = #{apn2Status,jdbcType=INTEGER},
+      month_total_traff = #{monthTotalTraff,jdbcType=VARCHAR},
+      used_traff = #{usedTraff,jdbcType=VARCHAR},
+      meg_total = #{megTotal,jdbcType=VARCHAR},
+      cellphone = #{cellphone,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      vin = #{vin,jdbcType=VARCHAR},
+      car_model_sn = #{carModelSn,jdbcType=VARCHAR},
+      car_model_name = #{carModelName,jdbcType=VARCHAR},
+      plate_number = #{plateNumber,jdbcType=VARCHAR},
+      cust_name = #{custName,jdbcType=VARCHAR},
+      cust_phone = #{custPhone,jdbcType=VARCHAR},
+      residual_traff = #{residualTraff,jdbcType=VARCHAR},
+      voice_status = #{voiceStatus,jdbcType=VARCHAR},
+      bcall_set_size = #{bcallSetSize,jdbcType=VARCHAR},
+      voi_used_amount = #{voiUsedAmount,jdbcType=VARCHAR},
+      deltag = #{deltag,jdbcType=BIT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zys.boot.user.dao.PurchRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.zys.boot.user.entity.PurchRecord" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="order_num_di" property="orderNumDi" jdbcType="VARCHAR" />
+    <result column="order_num_traff" property="orderNumTraff" jdbcType="VARCHAR" />
+    <result column="channel" property="channel" jdbcType="VARCHAR" />
+    <result column="puct_name" property="puctName" jdbcType="VARCHAR" />
+    <result column="amount" property="amount" jdbcType="VARCHAR" />
+    <result column="purch_time" property="purchTime" jdbcType="TIMESTAMP" />
+    <result column="voice_set" property="voiceSet" jdbcType="VARCHAR" />
+    <result column="traff_set" property="traffSet" jdbcType="VARCHAR" />
+    <result column="used_cycle" property="usedCycle" jdbcType="VARCHAR" />
+    <result column="set_size" property="setSize" jdbcType="VARCHAR" />
+    <result column="set_start_time" property="setStartTime" jdbcType="TIMESTAMP" />
+    <result column="set_end_time" property="setEndTime" jdbcType="TIMESTAMP" />
+    <result column="vehicle_phone" property="vehiclePhone" jdbcType="VARCHAR" />
+    <result column="deltag" property="deltag" jdbcType="BIT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, order_num_di, order_num_traff, channel, puct_name, amount, purch_time, voice_set, 
+    traff_set, used_cycle, set_size, set_start_time, set_end_time, vehicle_phone, deltag
+  </sql>
+  <select id="selectByOrderNumTraff" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_purch_record
+    where order_num_traff = #{orderNumTraff,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_purch_record
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zys.boot.user.entity.PurchRecord" >
+    insert into t_purch_record (id, order_num_di, order_num_traff, 
+      channel, puct_name, amount, 
+      purch_time, voice_set, traff_set, 
+      used_cycle, set_size, set_start_time, 
+      set_end_time, vehicle_phone, deltag
+      )
+    values (#{id,jdbcType=INTEGER}, #{orderNumDi,jdbcType=VARCHAR}, #{orderNumTraff,jdbcType=VARCHAR}, 
+      #{channel,jdbcType=VARCHAR}, #{puctName,jdbcType=VARCHAR}, #{amount,jdbcType=VARCHAR}, 
+      #{purchTime,jdbcType=TIMESTAMP}, #{voiceSet,jdbcType=VARCHAR}, #{traffSet,jdbcType=VARCHAR}, 
+      #{usedCycle,jdbcType=VARCHAR}, #{setSize,jdbcType=VARCHAR}, #{setStartTime,jdbcType=TIMESTAMP}, 
+      #{setEndTime,jdbcType=TIMESTAMP}, #{vehiclePhone,jdbcType=VARCHAR}, #{deltag,jdbcType=BIT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zys.boot.user.entity.PurchRecord" >
+    insert into t_purch_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="orderNumDi != null" >
+        order_num_di,
+      </if>
+      <if test="orderNumTraff != null" >
+        order_num_traff,
+      </if>
+      <if test="channel != null" >
+        channel,
+      </if>
+      <if test="puctName != null" >
+        puct_name,
+      </if>
+      <if test="amount != null" >
+        amount,
+      </if>
+      <if test="purchTime != null" >
+        purch_time,
+      </if>
+      <if test="voiceSet != null" >
+        voice_set,
+      </if>
+      <if test="traffSet != null" >
+        traff_set,
+      </if>
+      <if test="usedCycle != null" >
+        used_cycle,
+      </if>
+      <if test="setSize != null" >
+        set_size,
+      </if>
+      <if test="setStartTime != null" >
+        set_start_time,
+      </if>
+      <if test="setEndTime != null" >
+        set_end_time,
+      </if>
+      <if test="vehiclePhone != null" >
+        vehicle_phone,
+      </if>
+      <if test="deltag != null" >
+        deltag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="orderNumDi != null" >
+        #{orderNumDi,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNumTraff != null" >
+        #{orderNumTraff,jdbcType=VARCHAR},
+      </if>
+      <if test="channel != null" >
+        #{channel,jdbcType=VARCHAR},
+      </if>
+      <if test="puctName != null" >
+        #{puctName,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=VARCHAR},
+      </if>
+      <if test="purchTime != null" >
+        #{purchTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="voiceSet != null" >
+        #{voiceSet,jdbcType=VARCHAR},
+      </if>
+      <if test="traffSet != null" >
+        #{traffSet,jdbcType=VARCHAR},
+      </if>
+      <if test="usedCycle != null" >
+        #{usedCycle,jdbcType=VARCHAR},
+      </if>
+      <if test="setSize != null" >
+        #{setSize,jdbcType=VARCHAR},
+      </if>
+      <if test="setStartTime != null" >
+        #{setStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="setEndTime != null" >
+        #{setEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="vehiclePhone != null" >
+        #{vehiclePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="deltag != null" >
+        #{deltag,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zys.boot.user.entity.PurchRecord" >
+    update t_purch_record
+    <set >
+      <if test="orderNumDi != null" >
+        order_num_di = #{orderNumDi,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNumTraff != null" >
+        order_num_traff = #{orderNumTraff,jdbcType=VARCHAR},
+      </if>
+      <if test="channel != null" >
+        channel = #{channel,jdbcType=VARCHAR},
+      </if>
+      <if test="puctName != null" >
+        puct_name = #{puctName,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        amount = #{amount,jdbcType=VARCHAR},
+      </if>
+      <if test="purchTime != null" >
+        purch_time = #{purchTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="voiceSet != null" >
+        voice_set = #{voiceSet,jdbcType=VARCHAR},
+      </if>
+      <if test="traffSet != null" >
+        traff_set = #{traffSet,jdbcType=VARCHAR},
+      </if>
+      <if test="usedCycle != null" >
+        used_cycle = #{usedCycle,jdbcType=VARCHAR},
+      </if>
+      <if test="setSize != null" >
+        set_size = #{setSize,jdbcType=VARCHAR},
+      </if>
+      <if test="setStartTime != null" >
+        set_start_time = #{setStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="setEndTime != null" >
+        set_end_time = #{setEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="vehiclePhone != null" >
+        vehicle_phone = #{vehiclePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="deltag != null" >
+        deltag = #{deltag,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zys.boot.user.entity.PurchRecord" >
+    update t_purch_record
+    set order_num_di = #{orderNumDi,jdbcType=VARCHAR},
+      order_num_traff = #{orderNumTraff,jdbcType=VARCHAR},
+      channel = #{channel,jdbcType=VARCHAR},
+      puct_name = #{puctName,jdbcType=VARCHAR},
+      amount = #{amount,jdbcType=VARCHAR},
+      purch_time = #{purchTime,jdbcType=TIMESTAMP},
+      voice_set = #{voiceSet,jdbcType=VARCHAR},
+      traff_set = #{traffSet,jdbcType=VARCHAR},
+      used_cycle = #{usedCycle,jdbcType=VARCHAR},
+      set_size = #{setSize,jdbcType=VARCHAR},
+      set_start_time = #{setStartTime,jdbcType=TIMESTAMP},
+      set_end_time = #{setEndTime,jdbcType=TIMESTAMP},
+      vehicle_phone = #{vehiclePhone,jdbcType=VARCHAR},
+      deltag = #{deltag,jdbcType=BIT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zys.boot.base.dao.SysCallLogEntityMapper" >
+  <resultMap id="BaseResultMap" type="com.zys.boot.base.entity.SysCallLogEntity" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="CALL_BEGIN_TIME" property="callBeginTime" jdbcType="TIMESTAMP" />
+    <result column="CALL_END_TIME" property="callEndTime" jdbcType="TIMESTAMP" />
+    <result column="CALL_LENGTH" property="callLength" jdbcType="BIGINT" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="INTERFACE_NO" property="interfaceNo" jdbcType="INTEGER" />
+    <result column="ORDER_NO" property="orderNo" jdbcType="VARCHAR" />
+    <result column="PARAM_JSON_STR" property="paramJsonStr" jdbcType="VARCHAR" />
+    <result column="RESULT_JSON_STR" property="resultJsonStr" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, CALL_BEGIN_TIME, CALL_END_TIME, CALL_LENGTH, CREATE_USER, INTERFACE_NO, ORDER_NO,PARAM_JSON_STR, RESULT_JSON_STR
+  </sql>
+
+  <insert id="insertSelective" parameterType="com.zys.boot.base.entity.SysCallLogEntity" >
+    insert into t_sys_call_log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="callBeginTime != null" >
+        CALL_BEGIN_TIME,
+      </if>
+      <if test="callEndTime != null" >
+        CALL_END_TIME,
+      </if>
+      <if test="callLength != null" >
+        CALL_LENGTH,
+      </if>
+      <if test="createUser != null" >
+        CREATE_USER,
+      </if>
+      <if test="interfaceNo != null" >
+        INTERFACE_NO,
+      </if>
+      <if test="orderNo != null" >
+        ORDER_NO,
+      </if>
+      <if test="paramJsonStr != null" >
+        PARAM_JSON_STR,
+      </if>
+      <if test="resultJsonStr != null" >
+        RESULT_JSON_STR,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="callBeginTime != null" >
+        #{callBeginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="callEndTime != null" >
+        #{callEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="callLength != null" >
+        #{callLength,jdbcType=BIGINT},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="interfaceNo != null" >
+        #{interfaceNo,jdbcType=INTEGER},
+      </if>
+      <if test="orderNo != null" >
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="paramJsonStr != null" >
+        #{paramJsonStr,jdbcType=VARCHAR},
+      </if>
+      <if test="resultJsonStr != null" >
+        #{resultJsonStr,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+</mapper>

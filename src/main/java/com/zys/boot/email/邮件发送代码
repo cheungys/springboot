@@ -1,0 +1,25 @@
+邮件生产者
+
+@Component
+public class MailSender {
+    //生产者代码实现，通过内置的模板类rabbitTemplate将消息发送到队列中
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
+
+    public void send(EmailSend emailSend) {
+        CorrelationData correlationData = new CorrelationData();
+        correlationData.setId(emailSend.getId());
+        rabbitTemplate.convertAndSend("mail-exchange", "mail.test", emailSend, correlationData);
+    }
+}
+业务实现：
+ EmailSend emailSend = new EmailSend();
+        emailSend.setId("222");
+        emailSend.setContent("最后发送发送火箭");
+        emailSend.setTitle("奇葩主题");
+        emailSend.setToUsers("15626183846@163.com");
+        List<String> stringList = new ArrayList<>();
+        stringList.add("D:\\文件\\比亚迪\\开发接口文档\\BYD表结构文档20190218.docx");
+        stringList.add("D:\\BaiduNetdiskDownload\\Java学习笔记(必看经典).doc");
+        emailSend.setFilepath(stringList);
+        mailSender.send(emailSend);

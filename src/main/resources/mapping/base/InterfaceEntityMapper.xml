@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zys.boot.base.dao.InterfaceEntityMapper">
+    <resultMap id="BaseResultMap" type="com.zys.boot.base.entity.InterfaceEntity">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="envirenment" property="envirenment" jdbcType="TINYINT"/>
+        <result column="NAME" property="name" jdbcType="VARCHAR"/>
+        <result column="PROVIDER" property="provider" jdbcType="VARCHAR"/>
+        <result column="REMARK" property="remark" jdbcType="VARCHAR"/>
+        <result column="URL" property="url" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, envirenment, NAME, PROVIDER, REMARK, URL
+  </sql>
+    <select id="selectByNameAndEnv" resultMap="BaseResultMap" parameterType="com.zys.boot.base.entity.InterfaceEntity">
+        select
+        <include refid="Base_Column_List"/>
+        from t_interface
+        where name = #{name,jdbcType=VARCHAR} and envirenment =#{envirenment,jdbcType=TINYINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_interface
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.zys.boot.base.entity.InterfaceEntity">
+    insert into t_interface (id, envirenment, NAME, 
+      PROVIDER, REMARK, URL
+      )
+    values (#{id,jdbcType=INTEGER}, #{envirenment,jdbcType=TINYINT}, #{name,jdbcType=VARCHAR}, 
+      #{provider,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.zys.boot.base.entity.InterfaceEntity">
+        insert into t_interface
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="envirenment != null">
+                envirenment,
+            </if>
+            <if test="name != null">
+                NAME,
+            </if>
+            <if test="provider != null">
+                PROVIDER,
+            </if>
+            <if test="remark != null">
+                REMARK,
+            </if>
+            <if test="url != null">
+                URL,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="envirenment != null">
+                #{envirenment,jdbcType=TINYINT},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="provider != null">
+                #{provider,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="url != null">
+                #{url,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.zys.boot.base.entity.InterfaceEntity">
+        update t_interface
+        <set>
+            <if test="envirenment != null">
+                envirenment = #{envirenment,jdbcType=TINYINT},
+            </if>
+            <if test="name != null">
+                NAME = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="provider != null">
+                PROVIDER = #{provider,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                REMARK = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="url != null">
+                URL = #{url,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.zys.boot.base.entity.InterfaceEntity">
+    update t_interface
+    set envirenment = #{envirenment,jdbcType=TINYINT},
+      NAME = #{name,jdbcType=VARCHAR},
+      PROVIDER = #{provider,jdbcType=VARCHAR},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      URL = #{url,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zys.boot.base.dao.DictNameMapper" >
+  <resultMap id="BaseResultMap" type="com.zys.boot.base.entity.DictName" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="dict_define_id" property="dictDefineId" jdbcType="INTEGER" />
+    <result column="dict_define_name" property="dictDefineName" jdbcType="VARCHAR" />
+    <result column="deltag" property="deltag" jdbcType="BIT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, dict_define_id, dict_define_name, deltag
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_dict_name
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_dict_name
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zys.boot.base.entity.DictName" >
+    insert into t_dict_name (id, dict_define_id, dict_define_name, 
+      deltag)
+    values (#{id,jdbcType=INTEGER}, #{dictDefineId,jdbcType=INTEGER}, #{dictDefineName,jdbcType=VARCHAR}, 
+      #{deltag,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zys.boot.base.entity.DictName" >
+    insert into t_dict_name
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="dictDefineId != null" >
+        dict_define_id,
+      </if>
+      <if test="dictDefineName != null" >
+        dict_define_name,
+      </if>
+      <if test="deltag != null" >
+        deltag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="dictDefineId != null" >
+        #{dictDefineId,jdbcType=INTEGER},
+      </if>
+      <if test="dictDefineName != null" >
+        #{dictDefineName,jdbcType=VARCHAR},
+      </if>
+      <if test="deltag != null" >
+        #{deltag,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zys.boot.base.entity.DictName" >
+    update t_dict_name
+    <set >
+      <if test="dictDefineId != null" >
+        dict_define_id = #{dictDefineId,jdbcType=INTEGER},
+      </if>
+      <if test="dictDefineName != null" >
+        dict_define_name = #{dictDefineName,jdbcType=VARCHAR},
+      </if>
+      <if test="deltag != null" >
+        deltag = #{deltag,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zys.boot.base.entity.DictName" >
+    update t_dict_name
+    set dict_define_id = #{dictDefineId,jdbcType=INTEGER},
+      dict_define_name = #{dictDefineName,jdbcType=VARCHAR},
+      deltag = #{deltag,jdbcType=BIT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

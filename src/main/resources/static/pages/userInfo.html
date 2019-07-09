@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../layui/css/layui.css" media="all"/>
+</head>
+<body>
+<table id="userInfo" lay-filter="test"></table>
+
+<script src="../layui/layui.js"></script>
+<script>
+    layui.use('table', function () {
+        var table = layui.table;
+        //第一个实例
+        table.render({
+            elem: '#userInfo',
+            height: 600,
+            url: '/users/getAllUser',
+            page: true,
+            cols: [[ //表头
+                {field: 'userId', title: 'ID', width: 120, sort: true, fixed: 'left'}
+                , {field: 'userName', title: '用户名', width: 120}
+                , {field: 'phone', title: '手机号码', width: 120, sort: true}
+                , {field: 'address', title: '地址', width: 200}
+                , {field: 'identityCard', title: '证件号码', width: 180}
+                , {field: 'cardType', title: '证件类型', width: 80, sort: true}
+                , {field: 'realName', title: '真实姓名', width: 120, sort: true}
+
+            ]]
+        });
+
+    });
+
+</script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zys.boot.base.dao.SysParamEntityMapper" >
+  <resultMap id="BaseResultMap" type="com.zys.boot.base.entity.SysParamEntity" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="PARAM_KEY" property="paramKey" jdbcType="VARCHAR" />
+    <result column="PARAM_NAME" property="paramName" jdbcType="VARCHAR" />
+    <result column="PARAM_VALUE" property="paramValue" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, PARAM_KEY, PARAM_NAME, PARAM_VALUE, REMARK
+  </sql>
+
+  <select id="selectByParamKey" resultMap="BaseResultMap"  parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_sys_param
+    where PARAM_KEY = #{paramKey,jdbcType=VARCHAR}
+  </select>
+</mapper>
