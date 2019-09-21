@@ -1,8 +1,11 @@
 package com.zys.boot;
 
 import com.alibaba.fastjson.JSON;
+import com.zhenzi.sms.ZhenziSmsClient;
 import com.zys.boot.base.utils.EmailUtil;
 import com.zys.boot.email.vo.EmailSend;
+import com.zys.boot.message.entity.Message;
+import com.zys.boot.message.service.SendMessageService;
 import com.zys.boot.user.entity.User;
 import com.zys.boot.user.model.TraffInVo;
 import com.zys.boot.user.model.VoiceTraffDTO;
@@ -25,6 +28,8 @@ public class BootApplicationTests {
     private GetTraffSetInfo getTraffSetInfo;
     @Autowired
     private UserService userService;
+    @Autowired
+    private SendMessageService sendMessageService;
 
     @Test
     public void contextLoads() {
@@ -68,7 +73,23 @@ public class BootApplicationTests {
         emailSend.setContent("最后终结者 测试内容");
         emailSend.setTitle("最终测主题");
         emailSend.setToUsers("15626183846@163.com");
-      //  mailSender.send(emailSend);
+        //  mailSender.send(emailSend);
     }
 
+    @Test
+    public void testSendMessage() {
+        Message message = new Message();
+        message.setReceives("15626183846");
+        message.setContent("您正在登录验证，验证码为：451228,请在5分钟内按页面提示提交验证码，切勿将验证码泄露于他人。\n");
+        if (sendMessageService.sendMessage(message)) {
+            System.out.println("发送短信成功了");
+        } else {
+            System.out.println("发送失败");
+        }
+    }
+
+    @Test
+    public void tttt() {
+        System.out.println(UUID.randomUUID().toString().replace("-",""));
+    }
 }

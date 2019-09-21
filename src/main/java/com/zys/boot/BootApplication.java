@@ -17,7 +17,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  * @author zys
  */
 @SpringBootApplication
-@MapperScan({"com.zys.boot.user.dao", "com.zys.boot.base.dao"})
+@MapperScan({"com.zys.boot.user.dao", "com.zys.boot.base.dao","com.zys.boot.message.dao"})
 @EnableSwagger2
 @EnableWebMvc
 public class BootApplication {

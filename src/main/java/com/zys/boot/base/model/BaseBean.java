@@ -1,5 +1,7 @@
 package com.zys.boot.base.model;
 
+import lombok.Data;
+
 import java.util.Date;
 
 /**
@@ -13,7 +15,7 @@ import java.util.Date;
  * 相关文档:
  * 修改记录: 修改日期 修改人员 修改说明
  */
-
+@Data
 public class BaseBean {
     /**
      * 主键ID
@@ -39,6 +41,15 @@ public class BaseBean {
      * 删除标识
      */
     private Boolean deltag;
+    private int delflag;
+
+    public int getDelflag() {
+        return delflag;
+    }
+
+    public void setDelflag(int delflag) {
+        this.delflag = delflag;
+    }
 
     public String getId() {
         return id;
