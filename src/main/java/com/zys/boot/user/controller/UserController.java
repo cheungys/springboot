@@ -1,5 +1,7 @@
 package com.zys.boot.user.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.zys.boot.base.controller.BaseController;
 import com.zys.boot.base.exception.CommonException;
 import com.zys.boot.base.model.JsonResult;
@@ -10,7 +12,6 @@ import com.zys.boot.user.entity.User;
 import com.zys.boot.base.utils.ExcelUtil;
 import com.zys.boot.user.model.CancelInVo;
 import com.zys.boot.user.model.LoginInVo;
-import com.zys.boot.user.model.ResponseVO;
 import com.zys.boot.user.model.UserModel;
 import com.zys.boot.user.service.UserService;
 import io.swagger.annotations.Api;
@@ -64,28 +65,26 @@ public class UserController extends BaseController {
      */
     @ApiOperation(value = "用户登陆", notes = "凭用户名、密码登陆")
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public JsonResult login(String userName, String password) {
-        LoginInVo loginInVo = new LoginInVo();
-        loginInVo.setUserName(userName);
-        loginInVo.setPassword(password);
+    public JsonResult login(@RequestBody LoginInVo loginInVo) {
         try {
-            if (StringUtil.isNotNull(userName) && StringUtil.isNotNull(password)) {
+            if (StringUtil.isNotNull(loginInVo.getUserName()) && StringUtil.isNotNull(loginInVo.getPassword())) {
                 //检验该用户是否存在
                 User user = userService.login(loginInVo);
                 //如果存在用户
                 if (null != user) {
                     //校验登陆密码是否和该用户保存的密码一致
-                    if (password.equals(user.getPassword())) {
+                    if (loginInVo.getPassword().equals(user.getPassword())) {
                         logger.info("登录成功了");
-                        return renderSuccess();
+                        return renderSuccess("登录成功");
                     }
                 }
             }
         } catch (Exception e) {
-            return renderError(e.getMessage());
+            logger.error(e.getMessage());
+            return renderError("登录成功");
         }
-        System.out.println("登录失败");
-        return renderError();
+        logger.info("登录失败");
+        return renderError("登录失败");
     }
 
     /**
@@ -325,16 +324,20 @@ public class UserController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/getAllUser", method = RequestMethod.GET)
-    public ResponseVO getAllUser() {
-        ResponseVO responseVO = new ResponseVO();
+    public List<User> getAllUser() {
+//        ResponseVO responseVO = new ResponseVO();
+////        List<User> userList = userService.findAll();
+////        if (userList.size() > 0) {
+////            responseVO.setCode(0);
+////            responseVO.setCount(userList.size());
+////            responseVO.setData(userList);
+////            return responseVO;
+////        }
+////        responseVO.setMsg("获取所有用户信息失败");
+////        return responseVO;
         List<User> userList = userService.findAll();
-        if (userList.size() > 0) {
-            responseVO.setCode(0);
-            responseVO.setCount(userList.size());
-            responseVO.setData(userList);
-            return responseVO;
-        }
-        responseVO.setMsg("获取所有用户信息失败");
-        return responseVO;
+        System.out.println(userList.toString());
+        return userList;
     }
+
 }
