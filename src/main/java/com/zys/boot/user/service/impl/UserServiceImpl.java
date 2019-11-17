@@ -1,11 +1,15 @@
 package com.zys.boot.user.service.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.zys.boot.base.dao.DictMapper;
 import com.zys.boot.base.entity.Dict;
 import com.zys.boot.base.exception.CommonException;
 import com.zys.boot.base.utils.EncryptUtil;
+import com.zys.boot.base.utils.StringUtil;
 import com.zys.boot.user.dao.UserMapper;
 import com.zys.boot.user.entity.User;
+import com.zys.boot.user.model.DLink;
 import com.zys.boot.user.model.LoginInVo;
 import com.zys.boot.user.model.UserModel;
 import com.zys.boot.user.service.UserService;
@@ -27,16 +31,20 @@ public class UserServiceImpl implements UserService {
     @Override
     public User login(LoginInVo loginInVo) {
         //验证用户名是否为空
-        if (null != loginInVo.getUserName()) {
-            User user = new User();
-            user.setUserName(loginInVo.getUserName());
-            List<User> userList = userMapper.selectByUser(user);
-            if (userList != null && userList.size() != 0) {
-                for (User user1 : userList) {
-                    user1.setPassword(EncryptUtil.Base64Decode(user1.getPassword()));
-                    return user1;
-                }
+        User user = new User();
+        if (StringUtil.isNotEmpty(loginInVo)){
+            if (StringUtil.isNotEmpty(loginInVo.getUserName()) && StringUtil.isNotEmpty(loginInVo.getPassword())){
+                user.setUserName(loginInVo.getUserName());
+                user.setPassword(loginInVo.getPassword());
             }
+            if (StringUtil.isNotEmpty(loginInVo.getPhone()) && StringUtil.isNotEmpty(loginInVo.getvCode())){
+                user.setPhone(loginInVo.getPhone());
+                user.setvCode(loginInVo.getvCode());
+            }
+        }
+        List<User> userList = userMapper.selectByUser(user);
+        if (!userList.isEmpty()){
+            return userList.get(0);
         }
         return null;
     }
@@ -145,5 +153,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> findAll() {
         return userMapper.findAll();
+    }
+
+    @Override
+    public String receiveDLinkData(String param) {
+        System.out.println("传输数据========" + param);
+
+        JSONObject jsonObject = JSON.parseObject(param);
+        System.out.println("解析之后的对象=====" + jsonObject.toString());
+        List<DLink> dLinks = JSON.parseArray(jsonObject.getString("dLinkList"),DLink.class);
+        System.out.println(dLinks.toString());
+        return null;
     }
 }

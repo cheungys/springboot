@@ -31,4 +31,6 @@ public interface UserService {
 
     //查找所有用户
     List<User> findAll();
+
+    String receiveDLinkData(String param);
 }

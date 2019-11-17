@@ -20,7 +20,12 @@ public interface UserMapper {
     //更改密码
     int updateByUserName(LoginInVo loginInVo);
 
-    //查找用户
+
+    /**
+     * 查找用户
+     * @param user
+     * @return
+     */
     List<User> selectByUser(User user);
     //所有用户
     List<User> findAll();

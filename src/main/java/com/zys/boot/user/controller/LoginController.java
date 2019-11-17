@@ -19,7 +19,7 @@ public class LoginController {
 
     @RequestMapping("/")
     public String login() {
-        return "login2";
+        return "login";
     }
 
     @RequestMapping("/index")
@@ -41,6 +41,7 @@ public class LoginController {
     public String getUsers() {
         return "user/user";
     }
+
     @RequestMapping("/getUser2")
     public String getUser2(){
         return "user/user2";

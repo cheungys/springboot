@@ -5,9 +5,12 @@ import com.github.pagehelper.PageInfo;
 import com.zys.boot.base.controller.BaseController;
 import com.zys.boot.base.exception.CommonException;
 import com.zys.boot.base.model.JsonResult;
+import com.zys.boot.base.utils.DataUtils;
 import com.zys.boot.base.utils.StringUtil;
 import com.zys.boot.email.service.SenderService;
 import com.zys.boot.email.vo.EmailSend;
+import com.zys.boot.message.entity.Message;
+import com.zys.boot.message.service.SendMessageService;
 import com.zys.boot.user.entity.User;
 import com.zys.boot.base.utils.ExcelUtil;
 import com.zys.boot.user.model.CancelInVo;
@@ -22,9 +25,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 /**
@@ -48,7 +54,8 @@ public class UserController extends BaseController {
     private UserService userService;
     @Autowired
     private SenderService senderService;
-
+    @Autowired
+    private SendMessageService messageService;
 
     /**
      * 登录
@@ -64,18 +71,25 @@ public class UserController extends BaseController {
      *                   }
      */
     @ApiOperation(value = "用户登陆", notes = "凭用户名、密码登陆")
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @PostMapping(value = "/login")
     public JsonResult login(@RequestBody LoginInVo loginInVo) {
         try {
-            if (StringUtil.isNotNull(loginInVo.getUserName()) && StringUtil.isNotNull(loginInVo.getPassword())) {
+            if (StringUtil.isNotNull(loginInVo.getUserName()) || StringUtil.isNotNull(loginInVo.getPassword()) || StringUtil.isNotEmpty(loginInVo.getPhone())) {
                 //检验该用户是否存在
                 User user = userService.login(loginInVo);
                 //如果存在用户
                 if (null != user) {
-                    //校验登陆密码是否和该用户保存的密码一致
-                    if (loginInVo.getPassword().equals(user.getPassword())) {
-                        logger.info("登录成功了");
-                        return renderSuccess("登录成功");
+                    if (StringUtil.isNotEmpty(loginInVo.getPhone())) {
+                        if (loginInVo.getPhone().equals(user.getPhone())) {
+                            logger.info("登录成功了");
+                            return renderSuccess("登录成功");
+                        }
+                    }else {
+                        //校验登陆密码是否和该用户保存的密码一致
+                        if (loginInVo.getPassword().equals(user.getPassword())) {
+                            logger.info("登录成功了");
+                            return renderSuccess("登录成功");
+                        }
                     }
                 }
             }
@@ -129,8 +143,8 @@ public class UserController extends BaseController {
      * @return
      */
     @ApiOperation(value = "新增用户", notes = "用户注册")
-    @RequestMapping(value = "/user", method = RequestMethod.POST)
-    public JsonResult register(UserModel userModel) {
+    @PostMapping(value = "/user")
+    public JsonResult register(@RequestBody UserModel userModel) {
         if (userModel != null) {
             checkParam(userModel);
         }
@@ -154,9 +168,33 @@ public class UserController extends BaseController {
         int maxSize = 20;
         if (StringUtil.isNull(userModel.getUserName())) {
             throw new CommonException("用户名不能为空");
+        } else {
+            User user = new User();
+            user.setUserName(userModel.getUserName());
+            List<User> userList = userService.seleteByInfo(user);
+            if (!userList.isEmpty()) {
+                throw new CommonException("用户名已存在");
+            }
         }
         if (StringUtil.isNull(userModel.getEmail())) {
             throw new CommonException("邮箱不能为空");
+        } else {
+            User user = new User();
+            user.setEmail(userModel.getEmail());
+            List<User> userList = userService.seleteByInfo(user);
+            if (!userList.isEmpty()) {
+                throw new CommonException("邮箱已注册");
+            }
+        }
+        if (StringUtil.isNull(userModel.getPhone())) {
+            throw new CommonException("手机号不能为空");
+        } else {
+            User user = new User();
+            user.setPhone(userModel.getPhone());
+            List<User> userList = userService.seleteByInfo(user);
+            if (!userList.isEmpty()) {
+                throw new CommonException("手机号已注册");
+            }
         }
         if (StringUtil.isNull(userModel.getPassword())) {
             throw new CommonException("密码不能为空");
@@ -320,24 +358,67 @@ public class UserController extends BaseController {
         return renderSuccess("导入成功");
     }
 
-    /**
-     * @return
-     */
-    @RequestMapping(value = "/getAllUser", method = RequestMethod.GET)
+
+    @GetMapping(value = "/getAllUser")
     public List<User> getAllUser() {
-//        ResponseVO responseVO = new ResponseVO();
-////        List<User> userList = userService.findAll();
-////        if (userList.size() > 0) {
-////            responseVO.setCode(0);
-////            responseVO.setCount(userList.size());
-////            responseVO.setData(userList);
-////            return responseVO;
-////        }
-////        responseVO.setMsg("获取所有用户信息失败");
-////        return responseVO;
         List<User> userList = userService.findAll();
         System.out.println(userList.toString());
         return userList;
     }
 
+    @RequestMapping(value = "sendDLinkData", method = RequestMethod.POST)
+    public JsonResult sendDLinkData(@RequestBody String param) {
+        if (StringUtil.isNotEmpty(param)) {
+            userService.receiveDLinkData(param);
+            return renderSuccess("成功了");
+        }
+        return renderError("请求参数为空");
+    }
+
+    @RequestMapping(value = "getIpAddress", method = RequestMethod.GET)
+    public String getIpAddress(HttpServletRequest request) {
+        InetAddress addr = null;
+        try {
+            addr = InetAddress.getLocalHost();
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
+        byte[] ipAddr = addr.getAddress();
+        String ipAddrStr = "";
+        for (int i = 0; i < ipAddr.length; i++) {
+            if (i > 0) {
+                ipAddrStr += ".";
+            }
+            ipAddrStr += ipAddr[i] & 0xFF;
+        }
+        return ipAddrStr;
+    }
+
+    /**
+     * 获取登录验证码
+     *
+     * @param phone
+     * @return
+     */
+    @GetMapping("/getVCode")
+    public JsonResult getVCode(String phone) {
+        if (StringUtil.isNotEmpty(phone)) {
+            User user = new User();
+            user.setPhone(phone);
+            List<User> userList = userService.seleteByInfo(user);
+            if (!userList.isEmpty()) {
+                String vCode = String.valueOf(new Random().nextInt(899999) + 100000);
+                Message message = new Message();
+                message.setReceives(phone);
+                message.setContent("您正在登录验证，验证码为：" + vCode + ",请在5分钟内按页面提示提交验证码，切勿将验证码泄露于他人。");
+                if (messageService.sendMessage(message)) {
+                    userList.get(0).setvCode(vCode);
+                    userList.get(0).setModifyTime(DataUtils.getDateTime());
+                    userService.modifyUser(userList.get(0));
+                    return renderSuccess();
+                }
+            }
+        }
+        return renderError();
+    }
 }

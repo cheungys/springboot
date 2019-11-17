@@ -3,7 +3,6 @@ package com.zys.boot.user.model;
 import com.zys.boot.base.model.BaseBean;
 
 
-
 public class LoginInVo extends BaseBean {
     //用户名
     private String userName;
@@ -11,6 +10,25 @@ public class LoginInVo extends BaseBean {
     private String password;
     //新密码
     private String newPassword;
+    private String phone;
+    private String vCode;
+
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getvCode() {
+        return vCode;
+    }
+
+    public void setvCode(String vCode) {
+        this.vCode = vCode;
+    }
 
     @Override
     public String toString() {

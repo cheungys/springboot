@@ -18,6 +18,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.mail.MessagingException;
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.UUID;
 
@@ -90,6 +91,10 @@ public class BootApplicationTests {
 
     @Test
     public void tttt() {
-        System.out.println(UUID.randomUUID().toString().replace("-",""));
+        DecimalFormat df = new DecimalFormat("0000");
+
+        String str2 = df.format(12);
+
+        System.out.println(str2);
     }
 }

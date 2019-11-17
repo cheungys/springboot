@@ -33,8 +33,6 @@ public class WebUserServiceImpl implements WebUserService {
         List<User> userList = userMapper.selectByUser(user);
 
             return userList;
-
-
     }
 
     public static void main(String[] args) {

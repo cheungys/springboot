@@ -1,5 +1,8 @@
 package com.zys.boot.base.utils.fileoperation;
 
+import com.spire.pdf.PdfDocument;
+
+import java.io.File;
 import java.text.DecimalFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -126,5 +129,23 @@ public class FileUtil {
     public static String getSuffixFromFileName(String fileName) {
         String suffix = fileName.substring(fileName.lastIndexOf("."));
         return suffix;
+    }
+
+    /**
+     * 统计PDF 页数
+     *
+     * @param filePath
+     * @return
+     */
+    public int getPDFTotalPageCount(String filePath) {
+        //创建PdfDocument实例
+        PdfDocument doc = new PdfDocument();
+        //加载PDF文件
+        doc.loadFromFile(filePath);
+
+        //获取PDF文件的页数
+        int pageCount = doc.getPages().getCount();
+        System.out.println("pdf文件：" + new File(filePath).getName() + "总页数为" + pageCount);
+        return pageCount;
     }
 }

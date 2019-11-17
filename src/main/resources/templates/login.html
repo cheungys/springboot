@@ -1,83 +1,182 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html>
 <head>
-    <meta charset="UTF-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <title>登陆页</title>
-
-    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" />
-    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
-    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-    <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
-
+    <meta charset="utf-8"/>
+    <title>请登录</title>
+    <link href="favicon.ico" rel="shortcut icon"/>
+    <link href="https://cdn.bootcss.com/twitter-bootstrap/3.4.0/css/bootstrap.min.css" rel="stylesheet"/>
 </head>
-<body>
+<body style="background: url(../static/images/1.jpg) no-repeat center center fixed; background-size: 100%; ">
+<div class="modal-dialog" style="margin-top: 10%;">
+    <div class="modal-content" id="loginDIV">
+        <div class="modal-header">
 
-<form class="form-horizontal center-block" role="form" id="userForm">
-    <div class="form-group">
-        <label class="col-sm-2 control-label">账号</label>
-        <div class="col-sm-2">
-            <input class="form-control" type="text" id="userName" name="userName" placeholder="请输入账户名"/>
+            <h3 class="modal-title text-center" id="myModalLabel" style="font-family: Arial">登 录</h3>
         </div>
-    </div>
-
-    <div class="form-group">
-        <label class="col-sm-2 control-label">密码</label>
-        <div class="col-sm-2">
-            <input type="password" class="form-control" id="password" name="password" placeholder="请输入正确密码"/>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-10">
-            <div class="checkbox">
-                <label>
-                    <input type="checkbox" /> 请记住我
-                </label>
+        <div class="modal-body" id="model-body">
+            <div id="user">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="用户名" autocomplete="off" id="userName"/>
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" placeholder="密码" autocomplete="off" id="password"/>
+                </div>
+                <a onclick="showCellPhoneLogin()" id="phoneLogin">手机号码登录</a>
+            </div>
+            <div id="dianhua">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="手机号码" autocomplete="off" id="cellPhone"/>
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" placeholder="验证码" autocomplete="off" id="vCode"
+                           style="width: 80%"/>
+                    <input type="button" value="获取验证码" id="getcode" onclick="getVCode()" class="btn btn-primary"
+                           style="margin-top: -10%;margin-left: 82%;"/>
+                </div>
+                <a onclick="showUserNameLogin()" id="usernameLogin">账号密码登录</a>
             </div>
         </div>
-    </div>
+        <div class="modal-footer">
+            <div class="form-group">
+                <button type="button" class="btn btn-primary form-control" onclick="clickLogin()">登录</button>
+            </div>
+            <div class="form-group">
+                <button type="button" class="btn btn-default form-control" onclick="changeDIV()">注册</button>
+            </div>
 
-    <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-10">
-            <button type="submit" class="btn btn-default" id="loginBtn">登录</button>
         </div>
     </div>
+    <div class="modal-content" id="register" style="width: 700px;height: 500px">
+        <form>
+            <div class="form-group">
+                <label for="register_cellPhone">手机号码</label>
+                <input type="text" class="form-control" id="register_cellPhone" placeholder="手机号码" style="width: 90%"/>
+            </div>
+            <div class="form-group">
+                <label for="register_userName">用户名</label>
+                <input type="text" class="form-control" id="register_userName" placeholder="用户名称" style="width: 90%"/>
+                <p style="color: red">可做登录用，确保其唯一性</p>
+            </div>
+            <div class="form-group">
+                <label for="register_email">电子邮箱</label>
+                <input type="email" class="form-control" id="register_email" placeholder="邮箱号" style="width: 90%"/>
+            </div>
+            <div class="form-group">
+                <label for="register_password">密码</label>
+                <input type="password" class="form-control" id="register_password" placeholder="密码" style="width: 90%"/>
+            </div>
 
-</form>
+            <button type="submit" class="btn btn-primary" onclick="register()">确认</button>
+            <button type="reset" class="btn btn-warning">重置</button>
+            <button type="button" class="btn btn-group" onclick="back()">返回</button>
+        </form>
+    </div>
+</div>
+<script src="../static/layui/layui.js"></script>
+<script src="../static/jquery/jquery-1.11.3.min.js"></script>
 <script>
     $(function () {
-        $("#loginBtn").click(
-            function () {
-                $.ajax({
-                    url: 'users/login',
-                    type: 'post',
-                    data: {
-                        userName: $("#userForm input[name= 'userName']").val(),
-                        password: $("#userForm input[name= 'password']").val()
-                    },
-                    success: function (data) {
-                        console.log(data);
-                        console.dir(data);
-                       // alert(data);
-                        if (data.status == 200) {
-                            window.location.href = '/index';
-                        } else {
-                            alert(data.msg);
-                        }
-                    },
-                    error: function (data) {
-                        alert("登录失败");
-                    }
-                });
-            });
-    })
+        $('#dianhua').hide();
+        $('#register').hide();
+    });
 
+    function showCellPhoneLogin() {
+        $('#dianhua').show();
+        $('#user').hide();
+    }
+
+    function showUserNameLogin() {
+        $('#dianhua').hide();
+        $('#user').show();
+    }
+
+    function getVCode() {
+        debugger;
+        var phone = $('#cellPhone').val();
+        $.ajax({
+            type: "GET",
+            url: "users/getVCode?phone="+phone,
+            contentType: "application/json",
+            success: function (r) {
+                debugger;
+                if (r.status == 200) {
+                   alert("验证码已发送");
+                } else {
+                    alert("获取失败");
+
+                }
+            }
+        });
+        $('#getcode').removeClass();
+        $('#getcode').addClass("btn btn-default");
+        $('#getcode').val("重新获取");
+    }
+
+    function changeDIV() {
+        $('#register').show();
+        $('#loginDIV').hide();
+    }
+
+    function back() {
+        $('#register').hide();
+        $('#loginDIV').show();
+    }
+
+    function clickLogin() {
+        debugger;
+        var userName = $('#userName').val();
+        var password = $('#password').val();
+        var phone = $('#cellPhone').val();
+        var vCode = $('#vCode').val();
+        $.ajax({
+            type: "POST",
+            async: false,
+            url: "users/login",
+            contentType: "application/json",
+            data: JSON.stringify({
+                userName: userName,
+                password: password,
+                phone:phone,
+                vCode:vCode
+            }),
+            success: function (r) {
+                debugger;
+                if (r.status == 200) {
+                    window.location.href = '/index';
+                } else {
+                    alert("登录失败");
+                    console.log("登录失败")
+                }
+            }
+        });
+    }
+
+    function register() {
+        var cellPhone = $('#register_cellPhone').val();
+        var userName = $('#register_userName').val();
+        var email = $('#register_email').val();
+        var password = $('#register_password').val();
+        $.ajax({
+            type: "POST",
+            async: false,
+            url: "users/user",
+            contentType: "application/json",
+            data: JSON.stringify({
+                userName: userName,
+                password: password,
+                email:email,
+                phone:cellPhone
+            }),
+            success:function (r) {
+                console.dir(r);
+                if (r.status ==200){
+                   alert("登陆成功")
+                } else {
+                    alert(r.msg);
+                }
+            }
+        })
+    }
 </script>
-
 </body>
-
-
 </html>
