@@ -6,6 +6,7 @@ import com.zys.boot.base.utils.EmailUtil;
 import com.zys.boot.email.vo.EmailSend;
 import com.zys.boot.message.entity.Message;
 import com.zys.boot.message.service.SendMessageService;
+import com.zys.boot.sys.config.redis.RedisUtil;
 import com.zys.boot.user.entity.User;
 import com.zys.boot.user.model.TraffInVo;
 import com.zys.boot.user.model.VoiceTraffDTO;
@@ -31,6 +32,8 @@ public class BootApplicationTests {
     private UserService userService;
     @Autowired
     private SendMessageService sendMessageService;
+    @Autowired
+    private RedisUtil redisUtil;
 
     @Test
     public void contextLoads() {
@@ -96,5 +99,10 @@ public class BootApplicationTests {
         String str2 = df.format(12);
 
         System.out.println(str2);
+    }
+    @Test
+    public void testRedis() {
+        redisUtil.del("zys","zys1111","zys888");
+
     }
 }
