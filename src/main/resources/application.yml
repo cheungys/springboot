@@ -4,7 +4,7 @@ server:
 spring:
   datasource:
     name: test
-    url: jdbc:mysql://127.0.0.1:3306/cloud?characterEncoding=utf8&useSSL=true
+    url: jdbc:mysql://127.0.0.1:3309/cloud2?characterEncoding=utf8&useSSL=true
     username: root
     password: a123
     # 使用druid数据源
@@ -13,9 +13,9 @@ spring:
     useSSL: false
     filters: stat
     maxActive: 20
-    initialSize: 1
+    initialSize: 5
     maxWait: 60000
-    minIdle: 1
+    minIdle: 2
     timeBetweenEvictionRunsMillis: 60000
     minEvictableIdleTimeMillis: 300000
     validationQuery: select 'x'
@@ -24,6 +24,31 @@ spring:
     testOnReturn: false
     poolPreparedStatements: true
     maxOpenPreparedStatements: 20
+    #配置监控统计的拦截功能，stat,监控统计，wall，防御sql注入，log4j，日志记录:
+    druid:
+      filter:
+        wall:
+          enabled: true
+        stat:
+          enabled: true
+          merge-sql: true
+          slow-sql-millis: 5000
+        log4j:
+          enabled: true
+      use-global-data-source-stat: true
+      stat-view-servlet:
+        enabled: true
+    #    login-username: admin
+   #     login-password: a123
+    #    allow: 127.0.0.1
+   #     deny: 192.168.31.28
+     #是否开启单个监控url调用的sql列表 默认开启
+      web-stat-filter:
+        session-stat-enable: true
+        enabled: true
+        session-stat-max-count: 1000
+
+  #合并多个 数据源
   thymeleaf:
     prefix: classpath:/templates/
     ## 实现页面热部署，修改后立即生效

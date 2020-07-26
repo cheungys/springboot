@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
             }
             if (StringUtil.isNotEmpty(loginInVo.getPhone()) && StringUtil.isNotEmpty(loginInVo.getvCode())){
                 user.setPhone(loginInVo.getPhone());
-                user.setvCode(loginInVo.getvCode());
+                user.setVCode(loginInVo.getvCode());
             }
         }
         List<User> userList = userMapper.selectByUser(user);

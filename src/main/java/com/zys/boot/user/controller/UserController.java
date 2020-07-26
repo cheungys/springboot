@@ -242,7 +242,7 @@ public class UserController extends BaseController {
                     } catch (Exception e) {
                         throw new CommonException(e.getMessage());
                     }
-                    user1.setvCode(vCode);
+                    user1.setVCode(vCode);
                     userService.modifyUser(user1);
                     logger.info("收件箱为" + toEmail);
                     logger.info("验证码发送成功" + vCode);
@@ -267,7 +267,7 @@ public class UserController extends BaseController {
             user.setEmail(cancelInVo.getEmail());
         }
         if (StringUtil.isNotNull(cancelInVo.getvCode())) {
-            user.setvCode(cancelInVo.getvCode());
+            user.setVCode(cancelInVo.getvCode());
         }
         boolean flag = userService.confirmInfo(user);
         if (flag) {
@@ -412,7 +412,7 @@ public class UserController extends BaseController {
                 message.setReceives(phone);
                 message.setContent("您正在登录验证，验证码为：" + vCode + ",请在5分钟内按页面提示提交验证码，切勿将验证码泄露于他人。");
                 if (messageService.sendMessage(message)) {
-                    userList.get(0).setvCode(vCode);
+                    userList.get(0).setVCode(vCode);
                     userList.get(0).setModifyTime(DataUtils.getDateTime());
                     userService.modifyUser(userList.get(0));
                     return renderSuccess();
