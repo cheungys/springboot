@@ -123,11 +123,11 @@
     }
 
     function clickLogin() {
-        debugger;
         var userName = $('#userName').val();
         var password = $('#password').val();
         var phone = $('#cellPhone').val();
         var vCode = $('#vCode').val();
+        console.log(userName)
         $.ajax({
             type: "POST",
             async: false,

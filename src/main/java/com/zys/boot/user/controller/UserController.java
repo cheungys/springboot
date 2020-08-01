@@ -1,7 +1,11 @@
 package com.zys.boot.user.controller;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.zys.boot.base.config.DataSource;
+import com.zys.boot.base.config.DynamicDataSourceContextHolder;
 import com.zys.boot.base.controller.BaseController;
 import com.zys.boot.base.exception.CommonException;
 import com.zys.boot.base.model.JsonResult;
@@ -19,6 +23,7 @@ import com.zys.boot.user.model.UserModel;
 import com.zys.boot.user.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import jdk.nashorn.internal.parser.Token;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,7 +89,7 @@ public class UserController extends BaseController {
                             logger.info("登录成功了");
                             return renderSuccess("登录成功");
                         }
-                    }else {
+                    } else {
                         //校验登陆密码是否和该用户保存的密码一致
                         if (loginInVo.getPassword().equals(user.getPassword())) {
                             logger.info("登录成功了");
@@ -421,4 +426,16 @@ public class UserController extends BaseController {
         }
         return renderError();
     }
+
+    @GetMapping("/test")
+    @DataSource(value = "slave")
+    public JsonResult getTest() {
+        logger.info("目前的数据源为=======" + DynamicDataSourceContextHolder.getDataSourceKey());
+
+        User u = new User();
+        u.setUserName("zys");
+        List<User> userList = userService.seleteByInfo(u);
+        return renderSuccess(userList);
+    }
+
 }

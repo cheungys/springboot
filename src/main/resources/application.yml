@@ -3,27 +3,50 @@ server:
 
 spring:
   datasource:
-    name: test
-    url: jdbc:mysql://127.0.0.1:3309/cloud2?characterEncoding=utf8&useSSL=true
-    username: root
-    password: a123
-    # 使用druid数据源
-    type: com.alibaba.druid.pool.DruidDataSource
-    driver-class-name: com.mysql.jdbc.Driver
-    useSSL: false
-    filters: stat
-    maxActive: 20
-    initialSize: 5
-    maxWait: 60000
-    minIdle: 2
-    timeBetweenEvictionRunsMillis: 60000
-    minEvictableIdleTimeMillis: 300000
-    validationQuery: select 'x'
-    testWhileIdle: true
-    testOnBorrow: false
-    testOnReturn: false
-    poolPreparedStatements: true
-    maxOpenPreparedStatements: 20
+    #默认数据源
+    master:
+      url: jdbc:mysql://127.0.0.1:3309/cloud2?characterEncoding=utf8&useSSL=true
+      username: root
+      password: a123
+      # 使用druid数据源
+      type: com.alibaba.druid.pool.DruidDataSource
+      driver-class-name: com.mysql.jdbc.Driver
+      useSSL: false
+      filters: stat
+      maxActive: 20
+      initialSize: 5
+      maxWait: 60000
+      minIdle: 2
+      timeBetweenEvictionRunsMillis: 60000
+      minEvictableIdleTimeMillis: 300000
+      validationQuery: select 'x'
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      poolPreparedStatements: true
+      maxOpenPreparedStatements: 20
+    #备份数据源
+    slave:
+      url: jdbc:mysql://127.0.0.1:3306/cloud2?characterEncoding=utf8&useSSL=true
+      username: root
+      password: a123
+      # 使用druid数据源
+      type: com.alibaba.druid.pool.DruidDataSource
+      driver-class-name: com.mysql.jdbc.Driver
+      useSSL: false
+      filters: stat
+      maxActive: 20
+      initialSize: 5
+      maxWait: 60000
+      minIdle: 2
+      timeBetweenEvictionRunsMillis: 60000
+      minEvictableIdleTimeMillis: 300000
+      validationQuery: select 'x'
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      poolPreparedStatements: true
+      maxOpenPreparedStatements: 20
     #配置监控统计的拦截功能，stat,监控统计，wall，防御sql注入，log4j，日志记录:
     druid:
       filter:
