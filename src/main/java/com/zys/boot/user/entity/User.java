@@ -4,6 +4,7 @@ import cn.afterturn.easypoi.excel.annotation.Excel;
 import com.zys.boot.base.model.BaseBean;
 import lombok.Data;
 
+import java.util.List;
 @Data
 public class User extends BaseBean {
     /**
@@ -55,5 +56,5 @@ public class User extends BaseBean {
      */
     @Excel(name = "验证码")
     private String vCode;
-
+    private List<Role> roles;
 }
