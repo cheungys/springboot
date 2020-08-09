@@ -1,6 +1,7 @@
 package com.zys.boot.user.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -21,7 +22,6 @@ public class LoginController {
     public String login() {
         return "login";
     }
-
     @RequestMapping("/index")
     public String index() {
         return "index";
@@ -45,5 +45,10 @@ public class LoginController {
     @RequestMapping("/getUser2")
     public String getUser2(){
         return "user/user2";
+    }
+
+    @GetMapping("/hello")
+    public String hello() {
+        return "hello";
     }
 }

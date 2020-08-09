@@ -428,7 +428,6 @@ public class UserController extends BaseController {
     }
 
     @GetMapping("/test")
-    @DataSource(value = "slave")
     public JsonResult getTest() {
         logger.info("目前的数据源为=======" + DynamicDataSourceContextHolder.getDataSourceKey());
 
